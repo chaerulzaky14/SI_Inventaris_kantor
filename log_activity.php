@@ -1,0 +1,79 @@
+<?php 
+include "asset/header.php";
+include "asset/sidebar.php";
+
+// <!-- koneksi database -->
+include "conn.php";
+
+// query untuk tampilkan data peminjaman
+$log = "select * from log_aktivitas";
+
+// jalankan query
+$result = mysqli_query($conn, $log);
+
+?>
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+         <!-- DataTales Example -->
+         <div class="card shadow mb-4 relative">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">DATA PEMINJAMAN</h6>
+              <hr>
+              <!-- <a href="#" class="btn btn-primary float-end" style="margin-left: 80%;"><i class="fas fa-plus"> TAMBAH DATA</i></a> -->
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <!-- kondisi jika baris lebih dari 0 maka false jika sebaliknya true atau ada isinya -->
+                <?php if(mysqli_num_rows($result) > 0) { ?>
+                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th> Deskripsi</th>
+                      <th>tanggal </th>
+                      <th>action </th>
+                      
+                    </tr>
+                  </thead>
+                 <tbody>
+                  <!-- proses me-looping data -->
+                  <?php 
+                    $no =1;
+                  while( $row = mysqli_fetch_assoc($result)) 
+                    {
+                  ?>
+                     
+                     <tr>
+                      <td> <?php echo $no;  ?></td>
+                      <td> <?php echo $row['deskripsi']; ?></td>
+                      <td> <?php echo $row['tanggal']; ?></td>
+                      <td> 
+                      <a href='back_end/log/hapus.php?id="<?php echo  $row['id_aktivitas'];  ?>"' class="btn btn-danger"><i class="fas fa-trash" onclick="return confirm('Apakah Anda yakin ingin hapus data ini?');"></i></a> 
+                      </td>
+                    </tr>
+                  
+                 </tbody>
+                 <?php $no++; } ?>
+                </table>
+
+                    <?php 
+                  }else{
+                    echo"tidak ada data ditemukan";
+                  }  
+                  ?>
+
+              </div>
+            </div>
+          </div>
+        </div>
+         <!-- /.container-fluid -->
+
+       
+<?php include "asset/footer.php"; ?>
+
+
+        
+   

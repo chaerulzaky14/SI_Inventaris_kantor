@@ -1,0 +1,35 @@
+<?php 
+
+// Koneksi ke database
+include '../koneksi.php';
+
+
+error_reporting(0); // Tidak menampilkan error
+ // cek id via url
+ if(isset($_GET['id'])) {
+     $anggota_id = $_GET['id'];
+
+     // query untuk mendapatkan data anggota berdasarkan ID
+     $sql = "DELETE FROM tb_anggota WHERE anggota_id = $anggota_id ";
+
+     if (mysqli_query($koneksi, $sql)) {
+        echo " <script>
+                     alert('data berhasil dihapus');
+                    document.location = '../anggota.php';
+                </script>";
+     }else{
+        echo "TERJADI KESALAHAN: ".mysqli_error($koneksi);
+     }
+
+     // menutup koneksi
+     mysqli_close($koneksi);
+
+     // pindahkan kehalaman utama
+     //header("location: ../anggota.php");
+   
+ }else {
+    echo "ID ANGGOTA TIDAK DITEMUKAN";
+ }
+
+
+?>
